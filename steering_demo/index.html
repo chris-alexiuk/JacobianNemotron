@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>Nano J-lens steering</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#runScroll">Skip to workspace</a>
+
+    <header class="app-header">
+      <div class="header-brand">
+        <span class="brand-mark" aria-hidden="true">J</span>
+        <div>
+          <h1>Nano J-lens</h1>
+          <p>Live steering workbench</p>
+        </div>
+      </div>
+      <div class="header-state">
+        <span class="model-chip" id="footerModel">NVIDIA Nemotron 3 Nano</span>
+        <span class="pilot-disclosure">100-prompt accepted pilot — exploratory, non-final</span>
+        <button class="status-button" id="refreshStatusButton" type="button" title="Refresh service status">
+          <span class="status-dot is-checking" id="statusDot" aria-hidden="true"></span>
+          <span id="serviceStatus">Checking service</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6v5h-5M4 18v-5h5M18.5 9a7 7 0 0 0-12-2.5L4 9m16 6-2.5 2.5A7 7 0 0 1 5.5 15" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="workspace" class="workbench">
+      <section class="run-pane" aria-labelledby="resultsTitle">
+        <header class="pane-toolbar run-toolbar">
+          <div>
+            <p class="eyebrow">Nano 3 · live</p>
+            <h2 id="resultsTitle">Run workspace</h2>
+          </div>
+          <div class="result-actions">
+            <span class="run-identity" id="runIdentity">No completed run</span>
+            <button class="secondary-button compact" id="exportButton" type="button" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></svg>
+              Export
+            </button>
+          </div>
+          <p class="mobile-pilot-disclosure">100-prompt accepted pilot — exploratory, non-final</p>
+        </header>
+
+        <div class="run-scroll" id="runScroll" tabindex="-1">
+          <section class="results-shell" aria-label="Conversation and A/B results">
+            <div class="comparison-grid" id="comparisonGrid">
+              <div class="empty-state conversation-empty">
+                <span class="empty-glyph" aria-hidden="true">J</span>
+                <div><strong>Ready for a run</strong><p>Submit a prompt to generate clean readouts.</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="intervention-shell" id="interventionPanel" aria-labelledby="interventionTitle" hidden>
+            <div class="intervention-head">
+              <div>
+                <p class="eyebrow">Selected direction</p>
+                <h2 id="interventionTitle">Configure intervention</h2>
+              </div>
+              <button class="icon-button" id="closeInterventionButton" type="button" title="Close intervention controls" aria-label="Close intervention controls">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+              </button>
+            </div>
+
+            <div class="source-line" id="sourceSummary"></div>
+            <div class="mode-tabs" role="radiogroup" aria-label="Intervention mode">
+              <label><input type="radio" name="interventionMode" value="steer" checked /><span>Steer</span></label>
+              <label><input type="radio" name="interventionMode" value="ablate" /><span>Ablate</span></label>
+              <label><input type="radio" name="interventionMode" value="swap" /><span>Activation swap</span></label>
+            </div>
+
+            <div class="intervention-grid">
+              <label class="field">
+                <span>Intervention layers</span>
+                <input id="interventionLayers" type="text" value="" inputmode="numeric" aria-describedby="interventionLayerHint" />
+                <small id="interventionLayerHint">0–50 · all 51 writable layers; layer 51 is read-only</small>
+              </label>
+              <div class="strength-control" id="strengthControl">
+                <div class="strength-heading">
+                  <label for="strengthRange">Strength</label>
+                  <input id="strengthNumber" type="number" value="-0.1" min="-2" max="2" step="0.05" aria-label="Intervention strength value" />
+                </div>
+                <input id="strengthRange" type="range" value="-0.1" min="-2" max="2" step="0.05" />
+                <div class="range-labels" aria-hidden="true"><span>−2</span><span>0</span><span>2</span></div>
+              </div>
+              <label class="toggle-field generated-toggle" for="generatedToggle">
+                <input id="generatedToggle" type="checkbox" />
+                <span class="toggle" aria-hidden="true"></span>
+                <span>Include generated positions</span>
+              </label>
+            </div>
+
+            <div class="swap-target" id="swapTarget" hidden>
+              <div class="swap-token">
+                <label class="field" for="sourceTokenText">
+                  <span>Source direction text</span>
+                  <input id="sourceTokenText" type="text" autocomplete="off" spellcheck="false" placeholder="Single-token text" />
+                </label>
+                <div class="tokenization-result" id="sourceTokenization" aria-live="polite">Source not validated</div>
+              </div>
+              <div class="swap-token">
+                <label class="field" for="targetTokenText">
+                  <span>Target direction text</span>
+                  <input id="targetTokenText" type="text" autocomplete="off" spellcheck="false" placeholder="Single-token text" />
+                </label>
+                <div class="tokenization-result" id="targetTokenization" aria-live="polite">Target not validated</div>
+              </div>
+            </div>
+
+            <p class="layer-warning" id="layerWarning" role="status" hidden></p>
+            <div class="intervention-actions">
+              <button class="primary-button" id="runInterventionButton" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" /></svg>
+                Run A/B intervention
+              </button>
+              <span class="action-note" id="modeNote">Signed norm-scaled direction addition.</span>
+            </div>
+            <p class="form-error" id="interventionError" role="alert" hidden></p>
+          </section>
+
+          <section class="provenance-shell" aria-labelledby="provenanceTitle">
+            <details id="provenanceDetails">
+              <summary id="provenanceTitle">Scientific provenance</summary>
+              <dl class="provenance-grid" id="provenanceGrid">
+                <div class="provenance-item"><dt>Service</dt><dd>Waiting for service identity.</dd></div>
+              </dl>
+            </details>
+          </section>
+        </div>
+
+        <section class="composer-shell" aria-labelledby="composerTitle">
+          <form id="promptForm">
+            <div class="composer-heading">
+              <div>
+                <p class="eyebrow">Pinned direct chat</p>
+                <h2 id="composerTitle">Prompt</h2>
+              </div>
+              <div class="segmented" role="tablist" aria-label="Prompt format">
+                <button class="segment" id="rawTab" type="button" role="tab" aria-selected="false" aria-controls="rawComposer" tabindex="-1" data-composer-mode="raw">Raw</button>
+                <button class="segment is-active" id="chatTab" type="button" role="tab" aria-selected="true" aria-controls="chatComposer" tabindex="0" data-composer-mode="chat">Chat</button>
+              </div>
+            </div>
+
+            <div id="rawComposer" role="tabpanel" aria-labelledby="rawTab" hidden>
+              <label class="sr-only" for="rawPrompt">Raw prompt</label>
+              <textarea id="rawPrompt" rows="3" spellcheck="true" placeholder="Enter a raw causal prompt"></textarea>
+            </div>
+
+            <div id="chatComposer" role="tabpanel" aria-labelledby="chatTab">
+              <div class="chat-heading">
+                <span class="field-label">Messages</span>
+                <button class="secondary-button compact" id="addMessageButton" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                  Add message
+                </button>
+              </div>
+              <div class="message-list" id="messageList"></div>
+            </div>
+
+            <details class="generation-settings" open>
+              <summary>Generation settings</summary>
+              <div class="generation-grid">
+                <label class="field">
+                  <span>Readout layers</span>
+                  <input id="readoutLayers" type="text" value="13-50" inputmode="numeric" aria-describedby="layerHint" />
+                  <small id="layerHint">0–51 · all 52 layers selectable</small>
+                </label>
+                <label class="field compact-field">
+                  <span>Top tokens</span>
+                  <input id="topK" type="number" value="8" min="1" max="16" step="1" />
+                </label>
+                <label class="field compact-field">
+                  <span>New tokens</span>
+                  <input id="maxNewTokens" type="number" value="32" min="1" max="32" step="1" />
+                </label>
+                <label class="field compact-field">
+                  <span>Seed</span>
+                  <input id="seed" type="number" value="0" min="0" step="1" />
+                </label>
+                <label class="toggle-field sampling-toggle" for="samplingToggle">
+                  <input id="samplingToggle" type="checkbox" />
+                  <span class="toggle" aria-hidden="true"></span>
+                  <span>Sampling</span>
+                </label>
+                <div class="sampling-fields" id="samplingFields" hidden>
+                  <label class="field compact-field">
+                    <span>Temperature</span>
+                    <input id="temperature" type="number" value="1" min="0.01" max="10" step="0.01" />
+                  </label>
+                  <label class="field compact-field">
+                    <span>Top p</span>
+                    <input id="topP" type="number" value="1" min="0.01" max="1" step="0.01" />
+                  </label>
+                </div>
+              </div>
+            </details>
+
+            <div class="run-bar">
+              <div class="progress-block" id="progressBlock" aria-live="polite">
+                <span class="progress-label" id="progressLabel">Idle</span>
+                <div class="progress-track" role="progressbar" aria-label="Inference progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack">
+                  <span id="progressFill"></span>
+                </div>
+              </div>
+              <div class="run-actions">
+                <button class="danger-button" id="stopButton" type="button" hidden>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" /></svg>
+                  Stop
+                </button>
+                <button class="primary-button" id="generateButton" type="submit">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" /></svg>
+                  Generate baseline
+                </button>
+              </div>
+            </div>
+            <p class="form-error" id="formError" role="alert" hidden></p>
+          </form>
+        </section>
+      </section>
+
+      <aside class="inspector-pane" aria-labelledby="inspectorTitle">
+        <header class="pane-toolbar inspector-toolbar">
+          <div>
+            <p class="eyebrow">Teacher-forced</p>
+            <h2 id="inspectorTitle">Readout inspector</h2>
+          </div>
+          <span class="inspector-badge">J-lens · Logit lens</span>
+        </header>
+        <div class="inspector-body" id="inspectorBody">
+          <div class="empty-state inspector-empty">
+            <span class="empty-glyph" aria-hidden="true">L</span>
+            <div><strong>No readout data</strong><p>Complete a baseline to inspect tokens across layers.</p></div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.codex/
+
+# Model, lens, checkpoint and generated analysis artifacts.
+artifacts/
+*.pt
+*.pt.meta.json
+*.checkpoint.pt
+*.safetensors
+*.bin
+*.arrow
+*.jsonl
+*.log
+
+# Generated browser recordings and renders. Keep the tiny sample fixture.
+demo/fixtures/*.recorded.json
+demo/fixtures/*.pilot-recorded.json
+demo/fixtures/*.smoke-recorded.json
+static-demo*/
+slice*.html
+slices/
+
+# Local secrets and environment overrides.
+.env
+.env.*
+!.env.example
+*.pem
+*.key

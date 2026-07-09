@@ -1,0 +1,38 @@
+"""Immutable identities and bounded service defaults."""
+
+from __future__ import annotations
+
+MODEL_ID = "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16"
+MODEL_REVISION = "cbd3fa9f933d55ef16a84236559f4ee2a0526848"
+LENS_SHA256 = "a1fbaac1c60ce8e5561feb9ef7830c384a395e6300dacd0ad9e5d776e7cb070d"
+FIT_SOURCE_SHA256 = "7d4f586302eec297d714a1b790327d19f56932faae4cf9552cd344ac66766fad"
+NEURONPEDIA_COMMIT = "fba06912787a1cd92fa68db2b708a7a3d1c4a5c7"
+NEMO_IMAGE = (
+    "nvcr.io/nvidia/nemo:25.11.01@"
+    "sha256:0adfd600a7e5d62bb71c751fa3fb712cf3ced38e9b6e4718ed609eae404e223b"
+)
+
+PILOT_DISCLOSURE = "100-prompt accepted pilot — exploratory, non-final"
+
+D_MODEL = 2688
+N_LAYERS = 52
+VOCAB_SIZE = 131072
+SOURCE_LAYERS = tuple(range(51))
+FINAL_LAYER = 51
+
+DEFAULT_STRENGTH = -0.1
+MIN_STRENGTH = -2.0
+MAX_STRENGTH = 2.0
+DEFAULT_MAX_NEW_TOKENS = 8
+MAX_NEW_TOKENS = 32
+DEFAULT_TOP_K = 8
+MAX_TOP_K = 16
+MAX_PROMPT_TOKENS = 512
+MAX_READOUT_LAYERS = N_LAYERS
+MAX_INTERVENTION_LAYERS = len(SOURCE_LAYERS)
+MAX_SOURCE_TOKENS = 8
+DEFAULT_READOUT_LAYERS = tuple(range(13, 51))
+DIRECTION_CACHE_SIZE = 256
+
+LENS_TYPES = frozenset({"jacobian", "logit"})
+INTERVENTION_MODES = frozenset({"steer", "ablate", "swap"})

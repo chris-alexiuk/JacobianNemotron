@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta
+      name="description"
+      content="Local fixture explorer for Nemotron 3 Nano Jacobian and logit lens readouts."
+    />
+    <title>Nemotron 3 Nano · Lens Explorer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="provenance.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#transcript">Skip to transcript</a>
+
+    <header class="site-header">
+      <div class="brand-lockup" aria-label="Nemotron lens explorer">
+        <span class="brand-mark" aria-hidden="true">J<span>∂</span></span>
+        <div>
+          <p class="eyebrow">Interpretability workbench</p>
+          <h1>Nemotron 3 Nano <span>Lens Explorer</span></h1>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <span id="fixture-pill" class="fixture-pill" data-mode="loading" title="No model inference is running">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="fixture-status">Loading fixture</span>
+        </span>
+        <button id="import-button" class="button button-secondary file-button" type="button">
+          <span aria-hidden="true">↥</span> Import
+        </button>
+        <input id="fixture-input" type="file" accept="application/json,.json" hidden />
+        <button id="export-button" class="button button-secondary" type="button">
+          <span aria-hidden="true">↓</span> Export
+        </button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="notice" aria-label="Fixture mode notice">
+        <div class="notice-icon" aria-hidden="true">i</div>
+        <div>
+          <strong id="fixture-notice-title">Static fixture explorer</strong>
+          <span id="fixture-notice-body">This page does not contact or run Nemotron.</span>
+        </div>
+        <span id="fixture-source" class="notice-source">Loading local fixture…</span>
+      </section>
+
+      <section id="provenance-panel" class="provenance-panel panel" aria-labelledby="provenance-title" hidden>
+        <div class="provenance-heading">
+          <div>
+            <p class="section-kicker">Recorded artifact</p>
+            <h2 id="provenance-title">Provenance &amp; acceptance</h2>
+          </div>
+          <span id="acceptance-badge" class="acceptance-badge" data-status="undeclared">Undeclared</span>
+        </div>
+
+        <dl class="provenance-grid">
+          <div>
+            <dt>Model revision</dt>
+            <dd><code id="provenance-model-revision">—</code></dd>
+          </div>
+          <div>
+            <dt>Lens SHA-256</dt>
+            <dd><code id="provenance-lens-sha">—</code></dd>
+          </div>
+          <div>
+            <dt>Corpus manifest SHA-256</dt>
+            <dd><code id="provenance-corpus-sha">—</code></dd>
+          </div>
+          <div>
+            <dt>Fitting prompts</dt>
+            <dd id="provenance-prompt-count">—</dd>
+          </div>
+          <div>
+            <dt>Target layer</dt>
+            <dd id="provenance-target-layer">—</dd>
+          </div>
+          <div>
+            <dt>Source layers</dt>
+            <dd id="provenance-source-layers">—</dd>
+          </div>
+          <div>
+            <dt>Acceptance tier</dt>
+            <dd id="provenance-acceptance-tier">—</dd>
+          </div>
+          <div>
+            <dt>Acceptance status</dt>
+            <dd id="provenance-acceptance-status">—</dd>
+          </div>
+        </dl>
+
+        <div id="acceptance-details" class="acceptance-details" hidden>
+          <p id="acceptance-reasons" class="acceptance-reasons" hidden></p>
+          <ul id="acceptance-checks" class="acceptance-checks" hidden></ul>
+        </div>
+
+        <p class="provenance-disclaimer">
+          <strong>Browser verification boundary:</strong>
+          these are recorded declarations, not cryptographic verification. This page checks their shape and pinned
+          identifiers, but does not rerun Nemotron, hash the lens or corpus, or independently certify acceptance.
+        </p>
+      </section>
+
+      <section class="control-deck panel" aria-labelledby="controls-title">
+        <div class="model-summary">
+          <p id="controls-title" class="section-kicker">Model</p>
+          <strong id="model-name">Nemotron 3 Nano</strong>
+          <span id="run-summary">Waiting for fixture</span>
+        </div>
+
+        <div class="mode-control">
+          <span class="control-label">Lens view</span>
+          <div id="mode-tabs" class="segmented" role="tablist" aria-label="Lens view">
+            <button type="button" role="tab" aria-selected="true" data-mode="JACOBIAN_LENS">Jacobian</button>
+            <button type="button" role="tab" aria-selected="false" data-mode="LOGIT_LENS">Logit</button>
+            <button type="button" role="tab" aria-selected="false" data-mode="DIFF">Difference</button>
+          </div>
+        </div>
+
+        <fieldset class="layer-control">
+          <legend class="control-label">Layer range <span id="layer-range-label">—</span></legend>
+          <label>
+            <span>From</span>
+            <input id="layer-start" type="range" min="0" max="0" value="0" />
+            <output id="layer-start-output" for="layer-start">—</output>
+          </label>
+          <label>
+            <span>To</span>
+            <input id="layer-end" type="range" min="0" max="0" value="0" />
+            <output id="layer-end-output" for="layer-end">—</output>
+          </label>
+        </fieldset>
+
+        <label class="top-n-control" for="top-n">
+          <span class="control-label">Top N</span>
+          <span class="number-field">
+            <input id="top-n" type="number" min="1" max="8" value="6" inputmode="numeric" />
+            <small id="top-n-limit">of 6</small>
+          </span>
+        </label>
+      </section>
+
+      <div id="loading-state" class="loading-state panel" role="status">
+        <span class="loading-spinner" aria-hidden="true"></span>
+        Reading the bundled Nemotron fixture…
+      </div>
+
+      <div id="error-state" class="error-state panel" role="alert" hidden>
+        <strong>Could not open the fixture.</strong>
+        <p id="error-message"></p>
+        <p>Serve this directory over HTTP or use <b>Import</b> to choose the JSON file directly.</p>
+      </div>
+
+      <div id="workspace" class="workspace" hidden>
+        <div class="primary-column">
+          <section id="transcript" class="panel transcript-panel" aria-labelledby="transcript-title">
+            <div class="panel-heading">
+              <div>
+                <p class="section-kicker">Sequence</p>
+                <h2 id="transcript-title">Prompt &amp; completion</h2>
+              </div>
+              <div class="selection-tools">
+                <span id="selection-summary">All positions</span>
+                <button id="clear-selection" class="text-button" type="button" hidden>Clear selection</button>
+              </div>
+            </div>
+
+            <p class="interaction-hint">
+              Hover a position to inspect it. Click to pin; <kbd>Shift</kbd> + click selects several.
+            </p>
+            <div id="transcript-content" class="transcript-content"></div>
+            <div class="transcript-legend" aria-label="Transcript legend">
+              <span><i class="legend-swatch prompt-swatch"></i> Prompt</span>
+              <span><i class="legend-swatch generated-swatch"></i> Generated</span>
+              <span><i class="legend-swatch selected-swatch"></i> Selected position</span>
+            </div>
+          </section>
+
+          <section class="panel readout-panel" aria-labelledby="readout-title">
+            <div class="panel-heading">
+              <div>
+                <p class="section-kicker">Layer trace</p>
+                <h2 id="readout-title">Position readout</h2>
+              </div>
+              <span id="readout-position" class="position-badge">Aggregate</span>
+            </div>
+            <div id="layer-readout" class="layer-readout"></div>
+          </section>
+        </div>
+
+        <aside class="panel token-sidebar" aria-labelledby="sidebar-title">
+          <div class="panel-heading sidebar-heading">
+            <div>
+              <p class="section-kicker">Readout vocabulary</p>
+              <h2 id="sidebar-title">Top tokens</h2>
+            </div>
+            <span id="sidebar-count" class="count-badge">0</span>
+          </div>
+
+          <p id="sidebar-description" class="sidebar-description">
+            Ranked across visible layers and transcript positions.
+          </p>
+
+          <div id="locked-tokens" class="locked-tokens" aria-label="Locked tokens"></div>
+
+          <div class="layer-axis" aria-hidden="true">
+            <span>token</span>
+            <span id="layer-axis-label">layers</span>
+          </div>
+          <div id="token-list" class="token-list"></div>
+
+          <div class="sidebar-help">
+            <span class="mouse-icon" aria-hidden="true"></span>
+            <p><strong>Hover</strong> to preview a token’s map. <strong>Click</strong> to lock its highlight across the transcript.</p>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer>
+      <span>Nemotron 3 Nano lens research demo</span>
+      <span>Local fixture · no telemetry · no inference</span>
+    </footer>
+
+    <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jlens"
+version = "0.1.0"
+description = "Jacobian-lens fitting and live exploration for Nemotron 3 Nano"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = [
+    "torch",
+    "huggingface_hub",
+    "transformers==4.57.3",
+    "numpy",
+    "accelerate",
+    "datasets",
+    "fastapi==0.124.2",
+    "plotext>=5.2",
+    "rich>=13",
+    "uvicorn==0.38.0",
+]
+
+[project.urls]
+Repository = "https://github.com/chris-alexiuk/JacobianNemotron"
+Paper = "https://transformer-circuits.pub/2026/workspace/index.html"
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+jlens-mood = "nemotron_mood.cli:main"
+nemotron-mood = "nemotron_mood.cli:main"
+nemotron-jlens = "nemotron_jlens.cli:main"
+nemotron-steering = "nemotron_steering.server:main"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501", "E741"]
+
+[tool.setuptools]
+packages = ["jlens", "nemotron_jlens", "nemotron_mood", "nemotron_steering"]
+
+[tool.setuptools.package-data]
+jlens = ["data/*"]

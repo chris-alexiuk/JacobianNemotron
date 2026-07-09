@@ -1,0 +1,341 @@
+{
+  "_fixture": {
+    "schema": "nemotron-jlens-fixture/v1",
+    "mode": "illustrative",
+    "title": "Geography completion",
+    "description": "A compact, hand-curated fixture for exercising the lens explorer UI. Values are illustrative and are not a recorded Nemotron inference run.",
+    "ui": {
+      "selected_positions": [],
+      "locked_tokens": []
+    },
+    "transcript": [
+      { "label": "Prompt", "start": 0, "end": 4, "generated": false },
+      { "label": "Generated completion", "start": 5, "end": 6, "generated": true }
+    ]
+  },
+  "meta": {
+    "kind": "meta",
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16",
+    "types": ["JACOBIAN_LENS", "LOGIT_LENS"],
+    "layers_by_type": {
+      "JACOBIAN_LENS": [0, 12, 24, 36, 47],
+      "LOGIT_LENS": [0, 12, 24, 36, 47]
+    },
+    "top_n": 5,
+    "prompt_len": 5,
+    "num_completion_tokens": 2,
+    "temperature": 0,
+    "prepend_bos": false,
+    "reuse_len": 0
+  },
+  "tokens": [
+    {
+      "kind": "token",
+      "position": 0,
+      "token": "The",
+      "id": 1012,
+      "is_generated": false,
+      "results": [
+        {
+          "type": "JACOBIAN_LENS",
+          "top_tokens": [
+            [" thing", " first", " name", " word", " beginning"],
+            [" place", " country", " city", " capital", " region"],
+            [" city", " capital", " country", " Paris", " France"],
+            [" capital", " France", " Paris", " city", " country"],
+            [" capital", " Paris", " France", " city", " is"]
+          ],
+          "top_probs": [
+            [0.035, 0.026, 0.021, 0.017, 0.014],
+            [0.072, 0.055, 0.041, 0.032, 0.025],
+            [0.143, 0.101, 0.067, 0.051, 0.039],
+            [0.261, 0.151, 0.091, 0.064, 0.045],
+            [0.472, 0.194, 0.103, 0.062, 0.041]
+          ]
+        },
+        {
+          "type": "LOGIT_LENS",
+          "top_tokens": [
+            [" ", "The", "A", "This", "In"],
+            [" word", " same", " first", " next", " capital"],
+            [" capital", " world", " first", " name", " city"],
+            [" capital", " ", " city", " country", " name"],
+            [" capital", " end", " next", " city", " of"]
+          ],
+          "top_probs": [
+            [0.051, 0.038, 0.029, 0.024, 0.019],
+            [0.109, 0.073, 0.051, 0.039, 0.031],
+            [0.218, 0.133, 0.081, 0.057, 0.043],
+            [0.391, 0.205, 0.101, 0.066, 0.046],
+            [0.682, 0.162, 0.067, 0.035, 0.021]
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "token",
+      "position": 1,
+      "token": " capital",
+      "id": 6864,
+      "is_generated": false,
+      "results": [
+        {
+          "type": "JACOBIAN_LENS",
+          "top_tokens": [
+            [" city", " money", " state", " letter", " building"],
+            [" city", " country", " seat", " France", " government"],
+            [" France", " Paris", " city", " country", " government"],
+            [" Paris", " France", " city", " country", " of"],
+            [" of", " Paris", " France", " city", " is"]
+          ],
+          "top_probs": [
+            [0.035, 0.026, 0.021, 0.017, 0.014],
+            [0.072, 0.055, 0.041, 0.032, 0.025],
+            [0.143, 0.101, 0.067, 0.051, 0.039],
+            [0.261, 0.151, 0.091, 0.064, 0.045],
+            [0.472, 0.194, 0.103, 0.062, 0.041]
+          ]
+        },
+        {
+          "type": "LOGIT_LENS",
+          "top_tokens": [
+            [" of", " city", " is", " letter", " and"],
+            [" of", " city", " in", " gains", " has"],
+            [" of", " city", " is", " in", " market"],
+            [" of", " of the", " city", " in", " is"],
+            [" of", " is", " city", " in", " has"]
+          ],
+          "top_probs": [
+            [0.051, 0.038, 0.029, 0.024, 0.019],
+            [0.109, 0.073, 0.051, 0.039, 0.031],
+            [0.218, 0.133, 0.081, 0.057, 0.043],
+            [0.391, 0.205, 0.101, 0.066, 0.046],
+            [0.682, 0.162, 0.067, 0.035, 0.021]
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "token",
+      "position": 2,
+      "token": " of",
+      "id": 315,
+      "is_generated": false,
+      "results": [
+        {
+          "type": "JACOBIAN_LENS",
+          "top_tokens": [
+            [" relation", " belonging", " link", " place", " part"],
+            [" country", " France", " city", " capital", " nation"],
+            [" France", " Paris", " country", " capital", " Europe"],
+            [" France", " Paris", " country", " city", " capital"],
+            [" France", " Paris", " capital", " country", " Europe"]
+          ],
+          "top_probs": [
+            [0.035, 0.026, 0.021, 0.017, 0.014],
+            [0.072, 0.055, 0.041, 0.032, 0.025],
+            [0.143, 0.101, 0.067, 0.051, 0.039],
+            [0.261, 0.151, 0.091, 0.064, 0.045],
+            [0.472, 0.194, 0.103, 0.062, 0.041]
+          ]
+        },
+        {
+          "type": "LOGIT_LENS",
+          "top_tokens": [
+            [" the", " a", " France", " this", " its"],
+            [" the", " France", " a", " Paris", " Europe"],
+            [" France", " the", " Paris", " Germany", " Europe"],
+            [" France", " the", " Paris", " Germany", " Italy"],
+            [" France", " the", " Paris", " Europe", " Germany"]
+          ],
+          "top_probs": [
+            [0.051, 0.038, 0.029, 0.024, 0.019],
+            [0.109, 0.073, 0.051, 0.039, 0.031],
+            [0.218, 0.133, 0.081, 0.057, 0.043],
+            [0.391, 0.205, 0.101, 0.066, 0.046],
+            [0.682, 0.162, 0.067, 0.035, 0.021]
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "token",
+      "position": 3,
+      "token": " France",
+      "id": 9625,
+      "is_generated": false,
+      "results": [
+        {
+          "type": "JACOBIAN_LENS",
+          "top_tokens": [
+            [" country", " nation", " Europe", " French", " place"],
+            [" Paris", " country", " Europe", " capital", " city"],
+            [" Paris", " capital", " city", " country", " Europe"],
+            [" Paris", " capital", " city", " is", " French"],
+            [" Paris", " capital", " is", " city", " France"]
+          ],
+          "top_probs": [
+            [0.035, 0.026, 0.021, 0.017, 0.014],
+            [0.072, 0.055, 0.041, 0.032, 0.025],
+            [0.143, 0.101, 0.067, 0.051, 0.039],
+            [0.261, 0.151, 0.091, 0.064, 0.045],
+            [0.472, 0.194, 0.103, 0.062, 0.041]
+          ]
+        },
+        {
+          "type": "LOGIT_LENS",
+          "top_tokens": [
+            [" is", " was", ",", " has", " and"],
+            [" is", ",", " was", " has", " lies"],
+            [" is", ",", " was", " has", " remains"],
+            [" is", ",", " was", " has", " will"],
+            [" is", ",", " was", " has", " remains"]
+          ],
+          "top_probs": [
+            [0.051, 0.038, 0.029, 0.024, 0.019],
+            [0.109, 0.073, 0.051, 0.039, 0.031],
+            [0.218, 0.133, 0.081, 0.057, 0.043],
+            [0.391, 0.205, 0.101, 0.066, 0.046],
+            [0.682, 0.162, 0.067, 0.035, 0.021]
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "token",
+      "position": 4,
+      "token": " is",
+      "id": 374,
+      "is_generated": false,
+      "results": [
+        {
+          "type": "JACOBIAN_LENS",
+          "top_tokens": [
+            [" relation", " equals", " statement", " location", " answer"],
+            [" Paris", " capital", " city", " located", " known"],
+            [" Paris", " the", " capital", " city", " located"],
+            [" Paris", " the city", " located", " known", " called"],
+            [" Paris", " Paris,", " the city", " located", " called"]
+          ],
+          "top_probs": [
+            [0.035, 0.026, 0.021, 0.017, 0.014],
+            [0.072, 0.055, 0.041, 0.032, 0.025],
+            [0.143, 0.101, 0.067, 0.051, 0.039],
+            [0.261, 0.151, 0.091, 0.064, 0.045],
+            [0.472, 0.194, 0.103, 0.062, 0.041]
+          ]
+        },
+        {
+          "type": "LOGIT_LENS",
+          "top_tokens": [
+            [" a", " the", " not", " located", " known"],
+            [" the", " a", " located", " Paris", " known"],
+            [" the", " Paris", " a", " located", " known"],
+            [" Paris", " the", " located", " a", " known"],
+            [" Paris", " the", " located", " a", " known"]
+          ],
+          "top_probs": [
+            [0.051, 0.038, 0.029, 0.024, 0.019],
+            [0.109, 0.073, 0.051, 0.039, 0.031],
+            [0.218, 0.133, 0.081, 0.057, 0.043],
+            [0.391, 0.205, 0.101, 0.066, 0.046],
+            [0.682, 0.162, 0.067, 0.035, 0.021]
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "token",
+      "position": 5,
+      "token": " Paris",
+      "id": 9274,
+      "is_generated": true,
+      "results": [
+        {
+          "type": "JACOBIAN_LENS",
+          "top_tokens": [
+            [" city", " name", " answer", " place", " entity"],
+            [" France", " capital", " city", " Europe", " country"],
+            [" France", " capital", " city", " French", " Europe"],
+            [" France", " capital", " city", " known", " answer"],
+            [".", ",", " is", " France", " city"]
+          ],
+          "top_probs": [
+            [0.035, 0.026, 0.021, 0.017, 0.014],
+            [0.072, 0.055, 0.041, 0.032, 0.025],
+            [0.143, 0.101, 0.067, 0.051, 0.039],
+            [0.261, 0.151, 0.091, 0.064, 0.045],
+            [0.472, 0.194, 0.103, 0.062, 0.041]
+          ]
+        },
+        {
+          "type": "LOGIT_LENS",
+          "top_tokens": [
+            [".", ",", " is", " France", " and"],
+            [".", ",", " is", " France", " which"],
+            [".", ",", " is", " and", " France"],
+            [".", ",", " is", " and", " France"],
+            [".", ",", " is", " and", " France"]
+          ],
+          "top_probs": [
+            [0.051, 0.038, 0.029, 0.024, 0.019],
+            [0.109, 0.073, 0.051, 0.039, 0.031],
+            [0.218, 0.133, 0.081, 0.057, 0.043],
+            [0.391, 0.205, 0.101, 0.066, 0.046],
+            [0.682, 0.162, 0.067, 0.035, 0.021]
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "token",
+      "position": 6,
+      "token": ".",
+      "id": 13,
+      "is_generated": true,
+      "results": [
+        {
+          "type": "JACOBIAN_LENS",
+          "top_tokens": [
+            [" end", " stop", " sentence", " answer", " fact"],
+            [" France", " capital", " city", " answer", " geography"],
+            [" capital", " France", " Paris", " city", " fact"],
+            [" Paris", " France", " capital", " city", " geography"],
+            ["<|endoftext|>", "\n", " This", " It", " The"]
+          ],
+          "top_probs": [
+            [0.035, 0.026, 0.021, 0.017, 0.014],
+            [0.072, 0.055, 0.041, 0.032, 0.025],
+            [0.143, 0.101, 0.067, 0.051, 0.039],
+            [0.261, 0.151, 0.091, 0.064, 0.045],
+            [0.472, 0.194, 0.103, 0.062, 0.041]
+          ]
+        },
+        {
+          "type": "LOGIT_LENS",
+          "top_tokens": [
+            ["\n", " The", " It", " This", "<|endoftext|>"],
+            ["\n", " The", " It", " This", "<|endoftext|>"],
+            ["\n", "<|endoftext|>", " The", " It", " This"],
+            ["<|endoftext|>", "\n", " The", " It", " This"],
+            ["<|endoftext|>", "\n", " The", " It", " This"]
+          ],
+          "top_probs": [
+            [0.051, 0.038, 0.029, 0.024, 0.019],
+            [0.109, 0.073, 0.051, 0.039, 0.031],
+            [0.218, 0.133, 0.081, 0.057, 0.043],
+            [0.391, 0.205, 0.101, 0.066, 0.046],
+            [0.682, 0.162, 0.067, 0.035, 0.021]
+          ]
+        }
+      ]
+    }
+  ],
+  "done": {
+    "kind": "done",
+    "seq_len": 7,
+    "prompt_len": 5,
+    "vocab_size": 131072,
+    "completion": " Paris."
+  }
+}
