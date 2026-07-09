@@ -1,5 +1,27 @@
 # Third-party notices
 
+## Anthropic Jacobian lens
+
+The `jlens` package is based on Anthropic's public Jacobian-lens code at
+commit `581d398613e5602a5af361e1c34d3a92ea82ba8e`. It is distributed under the
+Apache License 2.0 in the root `LICENSE` file and retains the upstream
+copyright and SPDX headers. The local `jlens/hf.py` adaptation adds the
+explicit NVIDIA Nemotron H layout (`backbone.layers`, `backbone.norm_f`, and
+`backbone.embeddings`) to the Hugging Face model-layout table.
+
+## Inputs not distributed by this repository
+
+NVIDIA Nemotron model weights are not included. They must be obtained from the
+model publisher at the pinned revision and remain subject to NVIDIA's model
+license and use terms:
+
+<https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16>
+
+The fitted WikiText corpus is also not included. Users must review the pinned
+`Salesforce/wikitext` dataset card and its underlying WikiText licensing before
+materializing or redistributing corpus data. This repository's code license
+does not grant rights to either the model weights or dataset content.
+
 ## Neuronpedia live lens intervention semantics
 
 The live steering, ablation, swap, and hook-order behavior in
