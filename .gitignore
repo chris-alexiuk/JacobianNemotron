@@ -25,7 +25,7 @@ demo/fixtures/*.recorded.json
 demo/fixtures/*.pilot-recorded.json
 demo/fixtures/*.smoke-recorded.json
 static-demo*/
-slice*.html
+/slice*.html
 slices/
 
 # Local secrets and environment overrides.
