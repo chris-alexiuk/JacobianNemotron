@@ -47,6 +47,7 @@ test "$(uv run nemotron-jlens info | jq -r .adaptation_source_sha256)" = \
 
 uv run pytest -q
 uv run ruff check .
+node --test demo/tests/*.test.js steering_demo/tests/*.test.js
 nvidia-smi --query-gpu=index,name,memory.total,uuid \
   --format=csv,noheader
 ```
@@ -467,6 +468,22 @@ python -m nemotron_steering.server \
   --lens artifacts/nemotron-1000.pt \
   --host 0.0.0.0 --port 8000 \
   --device-map auto --cache-dir /hf
+```
+
+With that service reachable on host port 8000, run the real browser harness
+from a host shell that has Firefox and `geckodriver` installed:
+
+```bash
+mkdir -p artifacts
+geckodriver --host 127.0.0.1 --port 4444 \
+  > artifacts/geckodriver.log 2>&1 &
+WEBDRIVER_PID=$!
+trap 'kill "$WEBDRIVER_PID" 2>/dev/null || true' EXIT
+
+python3 tests/run_steering_browser_smoke.py \
+  --webdriver http://127.0.0.1:4444 \
+  --url http://127.0.0.1:8000/ \
+  --output artifacts/nano-steering-browser.json
 ```
 
 Then require all of the following on the real Nano model:

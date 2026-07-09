@@ -42,6 +42,7 @@ uv sync --extra dev
 uv run nemotron-jlens info
 uv run pytest -q
 uv run ruff check .
+node --test demo/tests/*.test.js steering_demo/tests/*.test.js
 ```
 
 The actual fit must run in the pinned NeMo container and pass the GPU gates in
