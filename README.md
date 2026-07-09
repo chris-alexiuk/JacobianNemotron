@@ -7,7 +7,7 @@ steering and mood application to the completed lens.
 
 Start with [docs/finish-nano-lens.md](docs/finish-nano-lens.md). It contains the
 exact model, dataset, source, container and corpus pins; preflight and smoke
-gates; resumable two- and three-H100 shard schedules; merge acceptance checks;
+gates; a resumable two-H100 shard schedule; merge acceptance checks;
 demo export commands; and live-application promotion checklist.
 
 ## Included

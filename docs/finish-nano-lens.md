@@ -2,7 +2,7 @@
 
 This is the handoff procedure for replacing the accepted 100-prompt pilot with
 the canonical 1,000-prompt, all-layer lens. It is written for a bare-metal host
-with two or three 80 GiB H100 GPUs. Run every command from the repository root.
+with exactly two 80 GiB H100 GPUs. Run every command from the repository root.
 
 Do not extend or merge the pilot. The final lens must be fitted from the
 canonical 1,000-prompt corpus as eight new, disjoint shards.
@@ -120,11 +120,10 @@ Each fitter process must see exactly one physical GPU. With
 Use `--device-map cuda` so insufficient HBM fails instead of silently offloading
 part of the model to CPU.
 
-For a two-GPU host set `GPU_IDS=(0 1)`. For a three-GPU host set
-`GPU_IDS=(0 1 2)`.
+Set the two physical fitter GPUs explicitly:
 
 ```bash
-GPU_IDS=(0 1)  # Change to: GPU_IDS=(0 1 2) for three H100s.
+GPU_IDS=(0 1)
 
 for gpu in "${GPU_IDS[@]}"; do
   CUDA_VISIBLE_DEVICES="$gpu" nemotron-jlens preflight \
@@ -210,13 +209,12 @@ hosts. Every host must use the same repository source and scientific runtime.
 
 The complete fit is 336,000 backward sweeps. The measured H200 all-layer smoke
 was roughly 5.6 minutes per prompt, so budget about 109 aggregate GPU-hours
-before retries. Two comparable GPUs imply roughly 55 wall-clock hours; three
-imply roughly 37 to 41 hours. H100 timing is only an estimate until the smoke
-fit finishes.
+before retries. Two comparable GPUs imply roughly 55 wall-clock hours. H100
+timing is only an estimate until the smoke fit finishes.
 
-Use one lane per GPU. The assignment below runs four 125-prompt shards per GPU
-on two GPUs, or three/three/two shards on three GPUs. Each failed command can be
-rerun unchanged; it resumes from `full-N.pt.checkpoint.pt`.
+Use one lane per GPU. The assignment below runs four 125-prompt shards on each
+of the two GPUs. Each failed command can be rerun unchanged; it resumes from
+`full-N.pt.checkpoint.pt`.
 
 ```bash
 set -u
@@ -242,17 +240,12 @@ fit_lane() {
 }
 
 pids=()
-if [ "${#GPU_IDS[@]}" -eq 2 ]; then
-  fit_lane "${GPU_IDS[0]}" 0 2 4 6 & pids+=("$!")
-  fit_lane "${GPU_IDS[1]}" 1 3 5 7 & pids+=("$!")
-elif [ "${#GPU_IDS[@]}" -eq 3 ]; then
-  fit_lane "${GPU_IDS[0]}" 0 3 6 & pids+=("$!")
-  fit_lane "${GPU_IDS[1]}" 1 4 7 & pids+=("$!")
-  fit_lane "${GPU_IDS[2]}" 2 5   & pids+=("$!")
-else
-  echo 'GPU_IDS must contain exactly two or three GPU indices' >&2
+if [ "${#GPU_IDS[@]}" -ne 2 ]; then
+  echo 'GPU_IDS must contain exactly two GPU indices' >&2
   return 2 2>/dev/null || exit 2
 fi
+fit_lane "${GPU_IDS[0]}" 0 2 4 6 & pids+=("$!")
+fit_lane "${GPU_IDS[1]}" 1 3 5 7 & pids+=("$!")
 
 rc=0
 for pid in "${pids[@]}"; do
